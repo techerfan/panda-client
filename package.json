@@ -1,0 +1,23 @@
+{
+  "name": "panda-client",
+  "version": "1.0.0",
+  "description": "a client package for Panda",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/techerfan/panda-client.git"
+  },
+  "keywords": [
+    "panda",
+    "client"
+  ],
+  "author": "Erfan Derakhshani",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/techerfan/panda-client/issues"
+  },
+  "homepage": "https://github.com/techerfan/panda-client#readme"
+}
