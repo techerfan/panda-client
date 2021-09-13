@@ -13,8 +13,8 @@ export interface Message {
 export const newMessage = (channel: string, message: string): Message => {
   return {
     msgType: MessageType.Raw,
-    channel: channel,
-    message: message,
+    channel,
+    message,
   };
 }
 
