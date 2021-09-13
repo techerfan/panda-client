@@ -13,13 +13,13 @@ export class EventEmitter {
     return EventEmitter.instance;
   }
 
-  dispatchMessage = () => (channelName: string, message: string): void => {
+  dispatchMessage = (channelName: string, message: string): void => {
     EventEmitter.instance.et.dispatchEvent(new MessageEvent(channelName, {
       data: message,
     }));
   }
 
-  addAListener = (channelName: string, callback: (msg: string) => void) => {
+  addListener = (channelName: string, callback: (msg: string) => void) => {
     EventEmitter.instance.et.addEventListener(channelName, (event: any) => {
       callback(event.data);
     });
