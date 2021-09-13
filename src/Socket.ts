@@ -1,7 +1,7 @@
 import { EventEmitter } from "./EventEmitter";
 import { Logger, LogType } from "./logger/logger";
 import { sectionNames } from "./logger/sectionNames";
-import { Message, MessageType } from "./message";
+import { Message, MessageType, stringify, newMessage } from "./message";
 
 export class Socket {
   socket: WebSocket;
@@ -19,8 +19,16 @@ export class Socket {
     EventEmitter.getInstance().addListener('', callback);
   } 
   
-  subscribe(channelName: string, callback: (msg: string) => void) {
+  subscribe = (channelName: string, callback: (msg: string) => void) => {
     EventEmitter.getInstance().addListener(channelName, callback);
+  }
+
+  send = (msg: string): void => {
+    this.socket.send(stringify(newMessage('', msg)));
+  }
+
+  publish = (channel: string, msg: string): void => {
+    this.socket.send(stringify(newMessage(channel, msg)));
   }
 
   private onOpen = (event: Event) => {
