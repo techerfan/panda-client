@@ -5,16 +5,16 @@ export enum MessageType {
 }
 
 export interface Message {
-  MsgType: MessageType;
-  Channel: string;
-  Message: string;
+  msgType: MessageType;
+  channel: string;
+  message: string;
 }
 
 export const newMessage = (channel: string, message: string): Message => {
   return {
-    MsgType: MessageType.Raw,
-    Channel: channel,
-    Message: message,
+    msgType: MessageType.Raw,
+    channel: channel,
+    message: message,
   };
 }
 

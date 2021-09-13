@@ -47,9 +47,9 @@ export class Socket {
     try {
       const data: Message = JSON.parse(event.data);
 
-      switch (data.MsgType) {
+      switch (data.msgType) {
         case MessageType.Raw:
-          EventEmitter.getInstance().dispatchMessage(data.Channel, data.Message);
+          EventEmitter.getInstance().dispatchMessage(data.channel, data.message);
           break;
       }
     } catch (error: any) {
