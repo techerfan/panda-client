@@ -52,7 +52,7 @@ export class Logger {
   }
 
   private makeDate = (date: Date): string => {
-    let log: string = `${date.getFullYear}-${date.getMonth}-${date.getDate}`;
+    let log: string = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
 
     if (!Logger.instance.config.hasTime) {
       log += ': ';
