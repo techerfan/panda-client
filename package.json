@@ -1,9 +1,9 @@
 {
   "name": "panda-client",
-  "version": "0.0.5",
+  "version": "0.1.1",
   "description": "A client package for Panda",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "lib/panda.js",
+  "types": "lib/panda.d.ts",
   "files": [
     "lib/**/*"
   ],
