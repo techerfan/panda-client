@@ -1,4 +1,4 @@
-import { Socket } from "./Socket";
+import { Socket } from './Socket';
 
 export const panda = (path: string): Promise<Socket> => {
   const ws = new WebSocket(path);
@@ -13,4 +13,4 @@ export const panda = (path: string): Promise<Socket> => {
       reject(new Error('WebSocket could not connect. Please check your configuration.'));
     };
   });
-}
+};

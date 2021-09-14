@@ -1,7 +1,9 @@
-import { EventEmitter } from "./EventEmitter";
-import { Logger, LogType } from "./logger/logger";
-import { sectionNames } from "./logger/sectionNames";
-import { Message, MessageType, stringify, newMessage } from "./message";
+import { EventEmitter } from './EventEmitter';
+import { Logger, LogType } from './logger/logger';
+import { sectionNames } from './logger/sectionNames';
+import {
+  Message, MessageType, stringify, newMessage,
+} from './message';
 
 export class Socket {
   socket: WebSocket;
@@ -13,10 +15,10 @@ export class Socket {
     this.socket.onmessage = this.onMessage;
   }
 
-  onNewMessage = (callback: (msg: string) => void) => {
+  onNewMessage = (callback: (msg: string) => void): void => {
     EventEmitter.getInstance().addListener('', callback);
-  } 
-  
+  }
+
   subscribe = (channelName: string, callback: (msg: string) => void) => {
     EventEmitter.getInstance().addListener(channelName, callback);
   }
@@ -28,11 +30,11 @@ export class Socket {
   publish = (channel: string, msg: string): void => {
     this.socket.send(stringify(newMessage(channel, msg)));
   }
-  
+
   private onClose = (event: CloseEvent) => {
     Logger.getInstance().log(LogType.Notice, sectionNames.main, 'Closing Socket Connection...');
   }
-  
+
   private onMessage = (event: MessageEvent) => {
     try {
       const data: Message = JSON.parse(event.data);
