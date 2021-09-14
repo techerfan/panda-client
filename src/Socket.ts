@@ -2,7 +2,7 @@ import { EventEmitter } from './EventEmitter';
 import { Logger, LogType } from './logger/logger';
 import { sectionNames } from './logger/sectionNames';
 import {
-  Message, MessageType, stringify, newMessage,
+  Message, MessageType, stringify, newMessage, genSubscribeMessage,
 } from './message';
 
 export class Socket {
@@ -20,6 +20,7 @@ export class Socket {
   }
 
   subscribe = (channelName: string, callback: (msg: string) => void) => {
+    this.socket.send(stringify(genSubscribeMessage(channelName)));
     EventEmitter.getInstance().addListener(channelName, callback);
   }
 
