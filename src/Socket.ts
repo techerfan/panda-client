@@ -9,9 +9,7 @@ export class Socket {
   constructor(socket: WebSocket) {
     this.socket = socket;
 
-    this.socket.onopen = this.onOpen;
     this.socket.onclose = this.onClose;
-    this.socket.onerror = this.onError;
     this.socket.onmessage = this.onMessage;
   }
 
@@ -30,17 +28,9 @@ export class Socket {
   publish = (channel: string, msg: string): void => {
     this.socket.send(stringify(newMessage(channel, msg)));
   }
-
-  private onOpen = (event: Event) => {
-    Logger.getInstance().log(LogType.Info, sectionNames.main, 'Socket is open now...');
-  }
   
   private onClose = (event: CloseEvent) => {
     Logger.getInstance().log(LogType.Notice, sectionNames.main, 'Closing Socket Connection...');
-  }
-  
-  private onError = (event: Event) => {
-    Logger.getInstance().log(LogType.Error, sectionNames.main, `An error occured.`);
   }
   
   private onMessage = (event: MessageEvent) => {
