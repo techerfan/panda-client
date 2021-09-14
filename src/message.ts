@@ -11,10 +11,16 @@ export interface Message {
 }
 
 export const newMessage = (channel: string, message: string): Message => ({
-  msgType: Number(MessageType.Raw),
+  msgType: MessageType.Raw,
   channel,
   message,
 });
+
+export const genSubscribeMessage = (channel: string): Message => ({
+  msgType: MessageType.Subscribe,
+  channel,
+  message: '',
+})
 
 export const stringify = (msg: Message): string => JSON.stringify(msg);
 
