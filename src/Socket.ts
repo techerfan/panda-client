@@ -26,6 +26,10 @@ export class Socket {
     EventEmitter.getInstance().addListener(channelName, callback);
   }
 
+  unsubscribe = (channelName: string, callback: () => void) => {
+    EventEmitter.getInstance().removeListener(channelName, callback);
+  } 
+
   send = (msg: string): void => {
     this.socket.send(stringify(newMessage('', msg)));
   }
