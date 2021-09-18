@@ -2,17 +2,18 @@ import { EventEmitter } from './EventEmitter';
 import { Logger, LogType } from './logger/logger';
 import { sectionNames } from './logger/sectionNames';
 import {
-  Message, MessageType, stringify, newMessage, genSubscribeMessage,
+  Message, MessageType, stringify, newMessage, genSubscribeMessage, genUnsubscribeMessage
 } from './message';
 
 export class Socket {
   socket: WebSocket;
+  subscribedChannels: string[];
 
   constructor(socket: WebSocket) {
     this.socket = socket;
-
     this.socket.onclose = this.onClose;
     this.socket.onmessage = this.onMessage;
+    this.subscribedChannels = [];
   }
 
   onNewMessage = (callback: (msg: string) => void): void => {
@@ -21,6 +22,7 @@ export class Socket {
 
   subscribe = (channelName: string, callback: (msg: string) => void) => {
     this.socket.send(stringify(genSubscribeMessage(channelName)));
+    this.subscribedChannels.push(channelName);
     EventEmitter.getInstance().addListener(channelName, callback);
   }
 
@@ -33,6 +35,9 @@ export class Socket {
   }
 
   private onClose = (event: CloseEvent) => {
+    for (const ch of this.subscribedChannels) {
+      this.socket.send(stringify(genUnsubscribeMessage(ch)))
+    }
     Logger.getInstance().log(LogType.Notice, sectionNames.main, 'Closing Socket Connection...');
   }
 
