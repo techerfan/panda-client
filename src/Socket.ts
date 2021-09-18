@@ -27,6 +27,7 @@ export class Socket {
   }
 
   unsubscribe = (channelName: string, callback: () => void) => {
+    this.socket.send(stringify(genUnsubscribeMessage(channelName)));
     EventEmitter.getInstance().removeListener(channelName, callback);
   } 
 
