@@ -20,7 +20,13 @@ export const genSubscribeMessage = (channel: string): Message => ({
   msgType: MessageType.Subscribe,
   channel,
   message: '',
-})
+});
+
+export const genUnsubscribeMessage = (channel: string): Message => ({
+  msgType: MessageType.Unsubscribe,
+  channel,
+  message: '',
+});
 
 export const stringify = (msg: Message): string => JSON.stringify(msg);
 
