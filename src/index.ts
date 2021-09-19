@@ -7,17 +7,16 @@ interface Config {
   onOpen: (event: Event) => void;
 }
 
+let socket: Socket
+
 export const panda = (path: string, cfg: Config): Promise<Socket> => {
-  // tslint:disable-next-line: prefer-const
-  let socket: Socket;
   return new Promise((resolve, reject) => {
-    connect(path, socket, cfg, resolve, reject);
+    connect(path, cfg, resolve, reject);
   });
 };
 
 const connect = (
     path: string, 
-    socket: Socket,
     conifg: Config,
     resolve: (value: Socket | PromiseLike<Socket>) => void, 
     reject: (reason?: any) => void
@@ -44,7 +43,7 @@ const connect = (
     socket.unsubscribeAll();
     if (conifg.autoReconnect) {
       setTimeout(() => {
-        connect(path, socket, conifg, resolve, reject);
+        connect(path, conifg, resolve, reject);
       }, 1000);
     }
     if (conifg.onClose) {
