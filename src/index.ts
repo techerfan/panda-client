@@ -8,20 +8,22 @@ interface Config {
 }
 
 export const panda = (path: string, cfg: Config): Promise<Socket> => {
+  let socket: Socket;
   return new Promise((resolve, reject) => {
-    connect(path, cfg, resolve, reject);
+    connect(path, socket, cfg, resolve, reject);
   });
 };
 
 const connect = (
     path: string, 
-    conifg: Config, 
+    socket: Socket,
+    conifg: Config,
     resolve: (value: Socket | PromiseLike<Socket>) => void, 
     reject: (reason?: any) => void
   ) => {
 
   const ws = new WebSocket(path);
-  const socket = new Socket(ws);
+  socket = new Socket(ws);
 
   ws.onopen = (event) => {
     if (conifg.onOpen) {
@@ -41,7 +43,7 @@ const connect = (
     socket.unsubscribeAll();
     if (conifg.autoReconnect) {
       setTimeout(() => {
-        connect(path, conifg, resolve, reject);
+        connect(path, socket, conifg, resolve, reject);
       }, 1000);
     }
     if (conifg.onClose) {
