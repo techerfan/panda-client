@@ -21,7 +21,7 @@ export class Socket {
     }
   }
 
-  init = async () => {
+  init = () => {
     this.socket = new WebSocket(this.path);
     this.socket.onopen = this.onOpen;
     this.socket.onmessage = this.onMessage;
