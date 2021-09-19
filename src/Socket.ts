@@ -48,6 +48,11 @@ export class Socket {
   }
 
   subscribe = (channelName: string, callback: (msg: string) => void) => {
+    for (const ch of this.subscribedChannels) {
+      if (ch === channelName) {
+        return
+      }
+    }
     this.socket!.send(stringify(genSubscribeMessage(channelName)));
     this.subscribedChannels.push(channelName);
     EventEmitter.getInstance().addListener(channelName, callback);
