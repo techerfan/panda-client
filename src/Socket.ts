@@ -21,12 +21,14 @@ export class Socket {
     }
   }
 
-  init = () => {
+  init = (): Socket => {
     this.socket = new WebSocket(this.path);
     this.socket.onopen = this.onOpen;
     this.socket.onmessage = this.onMessage;
     this.socket.onclose = this.onClose;
     this.socket.onerror = this.onError;
+
+    return this;
   }
 
   onNewMessage = (callback: (msg: string) => void): void => {
