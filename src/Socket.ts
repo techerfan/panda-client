@@ -38,7 +38,7 @@ export class Socket {
     this.socket.send(stringify(newMessage(channel, msg)));
   }
 
-   unsubscribeAll = () => {
+  unsubscribeAll = () => {
     for (const ch of this.subscribedChannels) {
       this.socket.send(stringify(genUnsubscribeMessage(ch)))
     }

@@ -14,10 +14,10 @@ export const panda = (path: string, cfg: Config): Promise<Socket> => {
 };
 
 const connect = (
-  path: string, 
-  conifg: Config, 
-  resolve: (value: Socket | PromiseLike<Socket>) => void, 
-  reject: (reason?: any) => void
+    path: string, 
+    conifg: Config, 
+    resolve: (value: Socket | PromiseLike<Socket>) => void, 
+    reject: (reason?: any) => void
   ) => {
 
   const ws = new WebSocket(path);
