@@ -8,6 +8,7 @@ interface Config {
 }
 
 export const panda = (path: string, cfg: Config): Promise<Socket> => {
+  // tslint:disable-next-line: prefer-const
   let socket: Socket;
   return new Promise((resolve, reject) => {
     connect(path, socket, cfg, resolve, reject);
