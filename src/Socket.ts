@@ -45,6 +45,10 @@ export class Socket {
     Logger.getInstance().log(LogType.Notice, sectionNames.main, 'Closing Socket Connection...');
   }
 
+  destroyConnection = () => {
+    this.socket.close();
+  }
+
   private onMessage = (event: MessageEvent) => {
     try {
       const data: Message = JSON.parse(event.data);
