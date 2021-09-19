@@ -11,7 +11,6 @@ export class Socket {
 
   constructor(socket: WebSocket) {
     this.socket = socket;
-    this.socket.onclose = this.onClose;
     this.socket.onmessage = this.onMessage;
     this.subscribedChannels = [];
   }
@@ -39,7 +38,7 @@ export class Socket {
     this.socket.send(stringify(newMessage(channel, msg)));
   }
 
-  private onClose = (event: CloseEvent) => {
+   unsubscribeAll = () => {
     for (const ch of this.subscribedChannels) {
       this.socket.send(stringify(genUnsubscribeMessage(ch)))
     }
