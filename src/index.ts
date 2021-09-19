@@ -24,12 +24,16 @@ const connect = (
   const socket = new Socket(ws);
 
   ws.onopen = (event) => {
-    conifg.onOpen(event);
+    if (conifg.onOpen) {
+      conifg.onOpen(event);
+    }
     resolve(socket);
   };
 
   ws.onerror = (event) => {
-    conifg.onError(event);
+    if (conifg.onError) {
+      conifg.onError(event);
+    }
     reject(new Error('WebSocket could not connect. Please check your configuration.'));
   };
 
@@ -40,6 +44,8 @@ const connect = (
         connect(path, conifg, resolve, reject);
       }, 1000);
     }
-    conifg.onClose(event);
+    if (conifg.onClose) {
+      conifg.onClose(event);
+    }
   };
 };
