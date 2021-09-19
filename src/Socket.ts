@@ -21,14 +21,26 @@ export class Socket {
     }
   }
 
-  init = (): Socket => {
+  init = (): Promise<Socket> => {
     this.socket = new WebSocket(this.path);
-    this.socket.onopen = this.onOpen;
     this.socket.onmessage = this.onMessage;
     this.socket.onclose = this.onClose;
-    this.socket.onerror = this.onError;
 
-    return this;
+    return new Promise((resolve, reject) => {
+      this.socket!.onopen = (event) => {
+        if (this.config.onOpen) {
+          this.config.onOpen(event);
+        }
+        resolve(this);
+      }
+
+      this.socket!.onerror = (event) => {
+        if (this.config.onError) {
+          this.config.onError(event);
+        }
+        reject(`Could not connect to ${this.path}`);
+      } 
+    });
   }
 
   onNewMessage = (callback: (msg: string) => void): void => {
@@ -87,18 +99,6 @@ export class Socket {
       setTimeout(() => {
         this.init();
       }, 1000);
-    }
-  }
-
-  private onError = (event: Event) => {
-    if (this.config.onError) {
-      this.config.onError(event);
-    }
-  }
-
-  private onOpen = (event: Event) => {
-    if (this.config.onOpen) {
-      this.config.onOpen(event);
     }
   }
 }
