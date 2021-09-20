@@ -6,14 +6,14 @@ import {
   Message, MessageType, stringify, newMessage, genSubscribeMessage, genUnsubscribeMessage
 } from './message';
 
-interface channel {
+interface Channel {
   name: string;
   callback: (msg: string) => void;
 }
 
 export class Socket {
   socket: WebSocket | null = null; 
-  subscribedChannels: channel[];
+  subscribedChannels: Channel[];
   path: string;
   config: Config;
 
