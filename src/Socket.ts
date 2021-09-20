@@ -25,7 +25,7 @@ export class Socket {
     this.socket = new WebSocket(this.path);
     this.socket.onmessage = this.onMessage;
     this.socket.onclose = this.onClose;
-    if (conf && conf.returnSocket !== false) {
+    if ((conf && conf.returnSocket !== false) || !conf) {
       return new Promise((resolve, reject) => {
         this.socket!.onopen = (event) => {
           if (this.config.onOpen) {
