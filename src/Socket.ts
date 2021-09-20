@@ -41,6 +41,18 @@ export class Socket {
           reject(`Could not connect to ${this.path}`);
         } 
       });
+    } else {
+      this.socket!.onopen = (event) => {
+        if (this.config.onOpen) {
+          this.config.onOpen(event);
+        }
+      }
+
+      this.socket!.onerror = (event) => {
+        if (this.config.onError) {
+          this.config.onError(event);
+        }
+      } 
     }
   }
 
