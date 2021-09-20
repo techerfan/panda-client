@@ -111,7 +111,8 @@ export class Socket {
 
   private subscribeToDefinedChannels = () => {
     for (const ch of this.subscribedChannels) {
-      this.subscribe(ch.name, ch.callback);
+      // EventEmitter.getInstance().removeListener(ch.name, ch.callback);
+      EventEmitter.getInstance().addListener(ch.name, ch.callback)
     }
   }
 
