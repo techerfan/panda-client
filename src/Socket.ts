@@ -21,26 +21,27 @@ export class Socket {
     }
   }
 
-  init = (): Promise<Socket> => {
+  init = (conf?: { returnSocket: boolean }): Promise<Socket> | void => {
     this.socket = new WebSocket(this.path);
     this.socket.onmessage = this.onMessage;
     this.socket.onclose = this.onClose;
-
-    return new Promise((resolve, reject) => {
-      this.socket!.onopen = (event) => {
-        if (this.config.onOpen) {
-          this.config.onOpen(event);
+    if (conf && conf.returnSocket !== false) {
+      return new Promise((resolve, reject) => {
+        this.socket!.onopen = (event) => {
+          if (this.config.onOpen) {
+            this.config.onOpen(event);
+          }
+          resolve(this);
         }
-        resolve(this);
-      }
-
-      this.socket!.onerror = (event) => {
-        if (this.config.onError) {
-          this.config.onError(event);
-        }
-        reject(`Could not connect to ${this.path}`);
-      } 
-    });
+  
+        this.socket!.onerror = (event) => {
+          if (this.config.onError) {
+            this.config.onError(event);
+          }
+          reject(`Could not connect to ${this.path}`);
+        } 
+      });
+    }
   }
 
   onNewMessage = (callback: (msg: string) => void): void => {
@@ -105,7 +106,7 @@ export class Socket {
     }
     if (this.config.autoReconnect) {
       setTimeout(() => {
-        this.init();
+        this.init({ returnSocket: false });
       }, 1000);
     }
   }
