@@ -6,9 +6,14 @@ import {
   Message, MessageType, stringify, newMessage, genSubscribeMessage, genUnsubscribeMessage
 } from './message';
 
+interface channel {
+  name: string;
+  callback: (msg: string) => void;
+}
+
 export class Socket {
   socket: WebSocket | null = null; 
-  subscribedChannels: string[];
+  subscribedChannels: channel[];
   path: string;
   config: Config;
 
@@ -25,6 +30,9 @@ export class Socket {
     this.socket = new WebSocket(this.path);
     this.socket.onmessage = this.onMessage;
     this.socket.onclose = this.onClose;
+
+    this.subscribeToDefinedChannels();
+
     if ((conf && conf.returnSocket !== false) || !conf) {
       return new Promise((resolve, reject) => {
         this.socket!.onopen = (event) => {
@@ -62,19 +70,22 @@ export class Socket {
 
   subscribe = (channelName: string, callback: (msg: string) => void) => {
     for (const ch of this.subscribedChannels) {
-      if (ch === channelName) {
+      if (ch.name === channelName) {
         return
       }
     }
     this.socket!.send(stringify(genSubscribeMessage(channelName)));
-    this.subscribedChannels.push(channelName);
+    this.subscribedChannels.push({
+      name: channelName,
+      callback,
+    });
     EventEmitter.getInstance().addListener(channelName, callback);
   }
 
   unsubscribe = (channelName: string, callback: () => void) => {
     this.socket!.send(stringify(genUnsubscribeMessage(channelName)));
     this.subscribedChannels = this.subscribedChannels.filter((el, index) => {
-      return el !== channelName;
+      return el.name !== channelName;
     });
     EventEmitter.getInstance().removeListener(channelName, callback);
   } 
@@ -89,13 +100,19 @@ export class Socket {
 
   unsubscribeAll = () => {
     for (const ch of this.subscribedChannels) {
-      this.socket!.send(stringify(genUnsubscribeMessage(ch)))
+      this.socket!.send(stringify(genUnsubscribeMessage(ch.name)))
     }
     Logger.getInstance().log(LogType.Notice, sectionNames.main, 'Closing Socket Connection...');
   }
 
   destroyConnection = () => {
     this.socket!.close();
+  }
+
+  private subscribeToDefinedChannels = () => {
+    for (const ch of this.subscribedChannels) {
+      this.subscribe(ch.name, ch.callback);
+    }
   }
 
   private onMessage = (event: MessageEvent) => {
