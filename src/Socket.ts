@@ -2,7 +2,7 @@ import { EventEmitter } from './EventEmitter';
 import { Logger, LogType } from './logger/logger';
 import { sectionNames } from './logger/sectionNames';
 import { Config } from './index';
-import { Message, MessageType, stringify, genUnsubscribeMessage } from './message';
+import { Message, MessageType } from './message';
 import { Queue } from './Queue/Queue';
 import { PublishCommand } from './Queue/PublishCommand';
 import { SocketReceiver } from './Queue/SocketReceiver';
