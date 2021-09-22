@@ -32,8 +32,8 @@ export class Queue {
   add = (command: Command) => {
     this.queueArr.push(command);
     if (this.isQueueActive) {
-      // this.processQueue();
-      command.execute();
+      this.processQueue();
+      // command.execute();
     }
   };
 

@@ -10,11 +10,11 @@ export class SocketReceiver {
   }
 
   publishMessage = (channel: string, msg: string) => {
-    this.socket!.send(stringify(newMessage(channel, msg)));
+    this.socket.socket!.send(stringify(newMessage(channel, msg)));
   }
 
   sendMessage = (msg: string) => {
-    this.socket!.send(stringify(newMessage('', msg)));
+    this.socket.socket!.send(stringify(newMessage('', msg)));
   }
 
   subscribe = (channelName: string, callback: (msg: string) => void) => {
@@ -23,7 +23,7 @@ export class SocketReceiver {
         return;
       }
     }
-    this.socket!.send(stringify(genSubscribeMessage(channelName)));
+    this.socket.socket!.send(stringify(genSubscribeMessage(channelName)));
     this.socket.subscribedChannels.push({
       name: channelName,
       callback,
@@ -32,7 +32,7 @@ export class SocketReceiver {
   } 
 
   unsubscribe = (channelName: string, callback: () => void) => {
-    this.socket!.send(stringify(genUnsubscribeMessage(channelName)));
+    this.socket.socket!.send(stringify(genUnsubscribeMessage(channelName)));
     this.socket.subscribedChannels = this.socket.subscribedChannels.filter(el => {
       return el.name !== channelName;
     });
