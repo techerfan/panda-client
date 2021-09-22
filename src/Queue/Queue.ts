@@ -5,8 +5,8 @@ export class Queue {
   private queueArr: Command[];
   private isQueueActive: boolean;
 
-  constructor () {
-    this.isQueueActive = false
+  constructor() {
+    this.isQueueActive = false;
     this.queueArr = [];
   }
 
@@ -17,39 +17,41 @@ export class Queue {
     return Queue.instance;
   };
 
-  
   start = () => {
     if (!this.isQueueActive) {
       this.isQueueActive = true;
-      this.scan();
-    } 
-  }
+    }
+  };
 
   stop = () => {
     if (this.isQueueActive) {
       this.isQueueActive = false;
     }
-  }
+  };
 
   add = (command: Command) => {
     this.queueArr.push(command);
-  }
+    if (this.isQueueActive) {
+      this.processQueue();
+    }
+  };
 
   remove = (command: Command) => {
-    this.queueArr = this.queueArr.filter(c => c !== command)
-  }
- 
-  private scan = () => {
-    while (true) {
+    this.queueArr = this.queueArr.filter((c) => c !== command);
+  };
 
-      if (this.queueArr.length > 0) {
-        this.queueArr[0].execute();
-        this.queueArr.shift();
-      }
-      
-      if (!this.isQueueActive) {
-        break;
-      }
+  private processQueue = () => {
+    while (this.queueArr.length > 0) {
+      this.queueArr[0].execute();
+      this.queueArr.shift();
     }
-  }
+    // if (this.queueArr.length > 0) {
+    //   this.queueArr[0].execute();
+    //   this.queueArr.shift();
+    // }
+
+    // if (!this.isQueueActive) {
+    //   break;
+    // }
+  };
 }
