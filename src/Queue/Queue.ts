@@ -21,6 +21,7 @@ export class Queue {
     if (!this.isQueueActive) {
       this.isQueueActive = true;
     }
+    this.processQueue();
   };
 
   stop = () => {

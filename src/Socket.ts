@@ -39,10 +39,8 @@ export class Socket {
       this.socket = new WebSocket(this.path);
       this.socket.onmessage = this.onMessage;
       this.socket.onclose = this.onClose;
-      this.socket!.onopen = this.onOpen;
-      this.socket!.onerror = this.onError;
-
-      this.subscribeToDefinedChannels();
+      this.socket.onopen = this.onOpen;
+      this.socket.onerror = this.onError;
     } catch (error) {
       console.log(error);
     }
@@ -53,6 +51,10 @@ export class Socket {
   };
 
   subscribe = (channelName: string, callback: (msg: string) => void) => {
+    this.subscribedChannels.push({
+      name: channelName,
+      callback,
+    });
     this.QueueManager.add(new SubscribeCommand(this.Receiver, channelName, callback));
   };
 
@@ -91,6 +93,7 @@ export class Socket {
       this.config.onOpen(event);
     }
     this.QueueManager.start();
+    this.subscribeToDefinedChannels();
   };
 
   private onError = (event: Event) => {
