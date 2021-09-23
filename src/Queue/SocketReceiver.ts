@@ -22,7 +22,6 @@ export class SocketReceiver {
     for (const ch of this.socket.subscribedChannels) {
       if (ch.name === channelName) {
         doesExist = true
-        return;
       }
     }
     if (!doesExist) {
