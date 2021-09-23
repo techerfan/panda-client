@@ -51,10 +51,6 @@ export class Socket {
   };
 
   subscribe = (channelName: string, callback: (msg: string) => void) => {
-    this.subscribedChannels.push({
-      name: channelName,
-      callback,
-    });
     this.QueueManager.add(new SubscribeCommand(this.Receiver, channelName, callback));
   };
 

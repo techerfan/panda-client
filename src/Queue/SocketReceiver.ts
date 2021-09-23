@@ -18,11 +18,19 @@ export class SocketReceiver {
   }
 
   subscribe = (channelName: string, callback: (msg: string) => void) => {
-    // for (const ch of this.socket.subscribedChannels) {
-    //   if (ch.name === channelName) {
-    //     return;
-    //   }
-    // }
+    let doesExist: boolean = false
+    for (const ch of this.socket.subscribedChannels) {
+      if (ch.name === channelName) {
+        doesExist = true
+        return;
+      }
+    }
+    if (!doesExist) {
+      this.socket.subscribedChannels.push({
+        name: channelName,
+        callback,
+      });
+    }
     this.socket.socket!.send(stringify(genSubscribeMessage(channelName)));
     EventEmitter.getInstance().addListener(channelName, callback);
   } 
