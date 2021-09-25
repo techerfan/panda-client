@@ -10,9 +10,10 @@ import { SendCommand } from './Queue/SendCommand';
 import { SubscribeCommand } from './Queue/SubscribeCommand';
 import { UnsubscribeCommand } from './Queue/UnsubsctibeCommand';
 
-interface Channel {
+export interface Channel {
   name: string;
   callback: (msg: string) => void;
+  active: boolean;
 }
 
 export class Socket {
@@ -78,8 +79,6 @@ export class Socket {
 
   private subscribeToDefinedChannels = () => {
     for (const ch of this.subscribedChannels) {
-      // EventEmitter.getInstance().removeListener(ch.name, ch.callback);
-      // EventEmitter.getInstance().addListener(ch.name, ch.callback);
       this.subscribe(ch.name, ch.callback);
     }
   };

@@ -1,6 +1,6 @@
 import { EventEmitter } from "../EventEmitter";
 import { genSubscribeMessage, genUnsubscribeMessage, newMessage, stringify } from "../message";
-import { Socket } from "../Socket"
+import { Socket, Channel } from "../Socket"
 
 export class SocketReceiver {
   private socket: Socket;
@@ -19,19 +19,27 @@ export class SocketReceiver {
 
   subscribe = (channelName: string, callback: (msg: string) => void) => {
     let doesExist: boolean = false
+    let channel: Channel;
     for (const ch of this.socket.subscribedChannels) {
       if (ch.name === channelName) {
         doesExist = true
+        channel = ch;
+        break;
       }
     }
     if (!doesExist) {
-      this.socket.subscribedChannels.push({
+      channel = {
         name: channelName,
         callback,
-      });
+        active: false,
+      };
+      this.socket.subscribedChannels.push(channel);
     }
-    this.socket.socket!.send(stringify(genSubscribeMessage(channelName)));
-    EventEmitter.getInstance().addListener(channelName, callback);
+    if (!channel!.active) {
+      this.socket.socket!.send(stringify(genSubscribeMessage(channelName)));
+      EventEmitter.getInstance().addListener(channelName, callback);
+      channel!.active = true;
+    }
   } 
 
   unsubscribe = (channelName: string, callback: () => void) => {
