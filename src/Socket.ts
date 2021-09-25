@@ -73,6 +73,12 @@ export class Socket {
   //   }
   // };
 
+  private deactivateChannels = () => {
+    for (const ch of this.subscribedChannels) {
+      ch.active = false;
+    }
+  };
+
   destroyConnection = () => {
     this.socket!.close();
   };
@@ -122,5 +128,6 @@ export class Socket {
       }, 1000);
     }
     this.QueueManager.stop();
+    this.deactivateChannels();
   };
 }
