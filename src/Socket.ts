@@ -23,6 +23,7 @@ export class Socket {
   config: Config;
   private QueueManager: Queue;
   private Receiver: SocketReceiver;
+  private isDestroyed: boolean;
 
   constructor(path: string, config: Config) {
     this.path = path;
@@ -33,6 +34,7 @@ export class Socket {
     }
     this.QueueManager = Queue.getInstance();
     this.Receiver = new SocketReceiver(this);
+    this.isDestroyed = false;
   }
 
   init = () => {
@@ -74,6 +76,7 @@ export class Socket {
   };
   
   destroyConnection = () => {
+    this.isDestroyed = true;
     this.unsubscribeAll();
     this.socket!.close();
   };
@@ -121,10 +124,10 @@ export class Socket {
   };
 
   private onClose = (event: Event) => {
-    if (this.config.onClose) {
+    if (this.config.onClose && !this.isDestroyed) {
       this.config.onClose(event);
     }
-    if (this.config.autoReconnect) {
+    if (this.config.autoReconnect && !this.isDestroyed) {
       setTimeout(() => {
         this.init();
       }, 1000);
