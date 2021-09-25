@@ -34,7 +34,7 @@ export class EventEmitter {
       callback: (event: any) => {
         callback(event.data);
       }
-    } 
+    }
     EventEmitter.instance.et.addEventListener(channelName, (this.callbacks[channelName].callback));
   };
 

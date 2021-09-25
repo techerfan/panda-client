@@ -55,8 +55,8 @@ export class Socket {
     this.QueueManager.add(new SubscribeCommand(this.Receiver, channelName, callback));
   };
 
-  unsubscribe = (channelName: string, callback: () => void) => {
-    this.QueueManager.add(new UnsubscribeCommand(this.Receiver, channelName, callback));
+  unsubscribe = (channelName: string) => {
+    this.QueueManager.add(new UnsubscribeCommand(this.Receiver, channelName));
   };
 
   send = (msg: string): void => {
@@ -67,14 +67,14 @@ export class Socket {
     this.QueueManager.add(new PublishCommand(this.Receiver, channel, msg));
   };
 
-  // unsubscribeAll = () => {
-  //   for (const ch of this.subscribedChannels) {
-  //     this.socket!.send(stringify(genUnsubscribeMessage(ch.name)));
-  //   }
-  // };
-
+  private unsubscribeAll = () => {
+    for (const ch of this.subscribedChannels) {
+      this.QueueManager.add(new UnsubscribeCommand(this.Receiver, ch.name));
+    }
+  };
   
   destroyConnection = () => {
+    this.unsubscribeAll();
     this.socket!.close();
   };
 

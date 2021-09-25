@@ -42,7 +42,7 @@ export class SocketReceiver {
     }
   } 
 
-  unsubscribe = (channelName: string, callback: () => void) => {
+  unsubscribe = (channelName: string) => {
     this.socket.socket!.send(stringify(genUnsubscribeMessage(channelName)));
     this.socket.subscribedChannels = this.socket.subscribedChannels.filter(el => {
       return el.name !== channelName;
