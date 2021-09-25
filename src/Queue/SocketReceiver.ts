@@ -47,6 +47,6 @@ export class SocketReceiver {
     this.socket.subscribedChannels = this.socket.subscribedChannels.filter(el => {
       return el.name !== channelName;
     });
-    EventEmitter.getInstance().removeListener(channelName, callback);
+    EventEmitter.getInstance().removeListener(channelName);
   }
 }

@@ -73,16 +73,18 @@ export class Socket {
   //   }
   // };
 
-  private deactivateChannels = () => {
-    for (const ch of this.subscribedChannels) {
-      ch.active = false;
-    }
-  };
-
+  
   destroyConnection = () => {
     this.socket!.close();
   };
 
+  private deactivateChannels = () => {
+    for (const ch of this.subscribedChannels) {
+      ch.active = false;
+      EventEmitter.getInstance().removeListener(ch.name)
+    }
+  };
+  
   private subscribeToDefinedChannels = () => {
     for (const ch of this.subscribedChannels) {
       this.subscribe(ch.name, ch.callback);

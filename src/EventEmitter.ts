@@ -1,9 +1,17 @@
+interface Callbacks {
+  [x: string]: { 
+    callback: (event: Event) => void; 
+  };
+}
+
 export class EventEmitter {
   private static instance: EventEmitter;
   private et: EventTarget;
+  private callbacks: Callbacks;
 
   constructor() {
     this.et = new EventTarget();
+    this.callbacks = {};
   }
 
   static getInstance = (): EventEmitter => {
@@ -22,12 +30,16 @@ export class EventEmitter {
   };
 
   addListener = (channelName: string, callback: (msg: string) => void) => {
-    EventEmitter.instance.et.addEventListener(channelName, (event: any) => {
-      callback(event.data);
-    });
+    this.callbacks[channelName] = {
+      callback: (event: any) => {
+        callback(event.data);
+      }
+    } 
+    EventEmitter.instance.et.addEventListener(channelName, (this.callbacks[channelName].callback));
   };
 
-  removeListener = (channelName: string, callback: () => void) => {
-    EventEmitter.instance.et.removeEventListener(channelName, callback);
+  removeListener = (channelName: string) => {
+    EventEmitter.instance.et.removeEventListener(channelName, this.callbacks[channelName].callback);
+    delete this.callbacks[channelName];
   };
 }
