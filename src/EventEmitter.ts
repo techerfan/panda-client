@@ -39,7 +39,9 @@ export class EventEmitter {
   };
 
   removeListener = (channelName: string) => {
-    EventEmitter.instance.et.removeEventListener(channelName, this.callbacks[channelName].callback);
-    delete this.callbacks[channelName];
+    if (this.callbacks[channelName]) {
+      EventEmitter.instance.et.removeEventListener(channelName, this.callbacks[channelName].callback);
+      delete this.callbacks[channelName];
+    }
   };
 }
