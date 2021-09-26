@@ -76,6 +76,7 @@ export class Socket {
   };
   
   destroyConnection = () => {
+    this.QueueManager.stop();
     this.isDestroyed = true;
     this.unsubscribeAll();
     this.socket!.close();
@@ -132,7 +133,6 @@ export class Socket {
         this.init();
       }, 1000);
     }
-    this.QueueManager.stop();
     this.deactivateChannels();
   };
 }

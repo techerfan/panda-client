@@ -34,7 +34,6 @@ export class Queue {
     this.queueArr.push(command);
     if (this.isQueueActive) {
       this.processQueue();
-      // command.execute();
     }
   };
 
@@ -47,13 +46,5 @@ export class Queue {
       this.queueArr[0].execute();
       this.queueArr.shift();
     }
-    // if (this.queueArr.length > 0) {
-    //   this.queueArr[0].execute();
-    //   this.queueArr.shift();
-    // }
-
-    // if (!this.isQueueActive) {
-    //   break;
-    // }
   };
 }
