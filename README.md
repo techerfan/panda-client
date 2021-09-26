@@ -60,4 +60,4 @@ socket.publish('channel_name', 'message');
 ---
 
 ## License 
-Licensed under the [MIT License]('/LICENSE').
+Licensed under the [MIT License](/LICENSE).
