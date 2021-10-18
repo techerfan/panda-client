@@ -1,0 +1,30 @@
+.App {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: aqua;
+  overflow: hidden;
+  /* z-index: 0; */
+  .layout {
+    width: 100%;
+    height: calc(100vh - 50px);
+    display: flex;
+    flex-direction: row;
+  }
+  .dialog {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.39);
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .box {
+      background: white;
+      padding: 10px;
+      border-radius: 10px;
+    }
+  }
+}
