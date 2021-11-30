@@ -1,6 +1,4 @@
-# Panda Client
-
-**⚠️ Please pay attention this package is under active development and version 1.0.0 is not released yet.** 
+# Panda Client 
 
 Also see the [server side package](https://github.com/techerfan/panda) written in go.
 
