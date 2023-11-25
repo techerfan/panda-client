@@ -14,4 +14,3 @@ export class SendCommand implements Command {
     this.receiver.sendMessage(this.message);
   };
 }
-

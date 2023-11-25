@@ -74,7 +74,7 @@ export class Socket {
       this.QueueManager.add(new UnsubscribeCommand(this.Receiver, ch.name));
     }
   };
-  
+
   destroyConnection = () => {
     this.QueueManager.stop();
     this.isDestroyed = true;
@@ -85,10 +85,10 @@ export class Socket {
   private deactivateChannels = () => {
     for (const ch of this.subscribedChannels) {
       ch.active = false;
-      EventEmitter.getInstance().removeListener(ch.name)
+      EventEmitter.getInstance().removeListener(ch.name);
     }
   };
-  
+
   private subscribeToDefinedChannels = () => {
     for (const ch of this.subscribedChannels) {
       this.subscribe(ch.name, ch.callback);

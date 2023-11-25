@@ -16,4 +16,3 @@ export class SubscribeCommand implements Command {
     this.receiver.subscribe(this.channelName, this.callback);
   };
 }
-

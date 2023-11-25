@@ -18,7 +18,7 @@ const initialConfig: Config = {
   hasDate: true,
   hasTime: true,
   enabled: true,
-}
+};
 
 export class Logger {
   private static instance: Logger;
@@ -37,19 +37,19 @@ export class Logger {
 
   setHeader = (header: string) => {
     Logger.instance.config.header = header;
-  }
+  };
 
   setHasDate = (hasDate: boolean) => {
     Logger.instance.config.hasDate = hasDate;
-  }
+  };
 
   setHasTime = (hasTime: boolean) => {
     Logger.instance.config.hasTime = hasTime;
-  }
+  };
 
   setEnabled = (enabled: boolean) => {
     Logger.instance.config.enabled = enabled;
-  }
+  };
 
   private makeDate = (date: Date): string => {
     let log: string = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
@@ -60,10 +60,9 @@ export class Logger {
       log += ': ';
     }
     return log;
-  }
+  };
 
   private makeTime = (date: Date): string => {
-
     let hours = date.getHours().toString();
     if (hours.length < 2) {
       hours = '0' + hours;
@@ -77,20 +76,20 @@ export class Logger {
       seconds = '0' + seconds;
     }
     return `${hours}:${minutes}:${seconds}: `;
-  }
+  };
 
   private makeHeader = (section: string): string => {
-    return `[${Logger.instance.config.header}:${section}] `
-  }
+    return `[${Logger.instance.config.header}:${section}] `;
+  };
 
-  log = (lType: LogType, section: string,message: string) => {
+  log = (lType: LogType, section: string, message: string) => {
     if (!Logger.instance.config.enabled) {
-      return
+      return;
     }
-    
+
     const date = new Date();
     let log: string = '';
-    
+
     if (Logger.instance.config.hasDate) {
       log = this.makeDate(date);
     }
@@ -110,5 +109,5 @@ export class Logger {
       default:
         console.log(log);
     }
-  }
+  };
 }

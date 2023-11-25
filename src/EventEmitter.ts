@@ -1,6 +1,6 @@
 interface Callbacks {
-  [x: string]: { 
-    callback: (event: Event) => void; 
+  [x: string]: {
+    callback: (event: Event) => void;
   };
 }
 
@@ -33,9 +33,9 @@ export class EventEmitter {
     this.callbacks[channelName] = {
       callback: (event: any) => {
         callback(event.data);
-      }
-    }
-    EventEmitter.instance.et.addEventListener(channelName, (this.callbacks[channelName].callback));
+      },
+    };
+    EventEmitter.instance.et.addEventListener(channelName, this.callbacks[channelName].callback);
   };
 
   removeListener = (channelName: string) => {

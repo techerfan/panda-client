@@ -14,4 +14,3 @@ export class UnsubscribeCommand implements Command {
     this.receiver.unsubscribe(this.channelName);
   };
 }
-
